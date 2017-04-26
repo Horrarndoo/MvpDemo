@@ -9,14 +9,14 @@ public abstract class BasePresenter<M, V> {
     public V mIView;
 
     /**
-     * 返回presenter想持有的view引用
+     * 返回presenter要持有的Model引用
      *
      * @return
      */
     public abstract M getModel();
 
     /**
-     * 绑定Model和View的引用
+     * 绑定IModel和IView的引用
      *
      * @param m model
      * @param v view
@@ -28,7 +28,7 @@ public abstract class BasePresenter<M, V> {
     }
 
     /**
-     * 解绑Model和View
+     * 解绑IModel和IView
      */
     public void detachMV() {
         mIView = null;
@@ -36,7 +36,7 @@ public abstract class BasePresenter<M, V> {
     }
 
     /**
-     * View和Model绑定完成立即执行
+     * IView和IModel绑定完成立即执行
      * <p>
      * 实现类实现绑定完成后的逻辑,例如数据初始化等
      */

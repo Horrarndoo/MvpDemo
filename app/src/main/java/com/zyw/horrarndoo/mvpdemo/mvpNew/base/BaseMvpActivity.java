@@ -36,7 +36,7 @@ public abstract class BaseMvpActivity<P extends BasePresenter, M extends IBaseMo
     /**
      * model 具体的model由子类确定
      */
-    private M mModel;
+    private M mIModel;
 
     /**
      * 初始化数据
@@ -48,8 +48,8 @@ public abstract class BaseMvpActivity<P extends BasePresenter, M extends IBaseMo
         if (this instanceof IBaseView) {
             this.setPresenter();
             if (mPresenter != null) {
-                mModel = (M) mPresenter.getModel();
-                mPresenter.attachMV(mModel, this);
+                mIModel = (M) mPresenter.getModel();
+                mPresenter.attachMV(mIModel, this);
                 Log.d("tag", "attach M V success.");
             }
         } else {
