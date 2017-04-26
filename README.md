@@ -57,7 +57,7 @@ public class LoginRequest {
 ```
 实现效果如下：
 
-![这里写图片描述](http://img.blog.csdn.net/20170426092850602?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvb1FpbllvdQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![这里写图片描述](https://raw.githubusercontent.com/Horrarndoo/MvpDemo/master/assets/simple-demo.gif)
 
 ## **MVC-demo**
 先看看我们最熟悉的MVC方式如何实现。
@@ -125,7 +125,7 @@ public class MvcActivity extends AppCompatActivity {
 出现了问题，自然就要想着如何解决这个问题，下面我们看看一个MVP框架的一个简单demo示例。
 先看看代码结构：
 
-![这里写图片描述](http://img.blog.csdn.net/20170426100011927?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvb1FpbllvdQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![这里写图片描述](https://raw.githubusercontent.com/Horrarndoo/MvpDemo/master/assets/simple-mvp.png)
 
 ### Model层
 Model层有一个接口ILoginModel，还有一个实现了ILoginModel接口的实现类。
@@ -295,7 +295,9 @@ mPresenter.login();
 最终实现的效果和MVC实现的效果是一样的，这时候就有人要问了，这代码量比MVC还要大啊，而且一堆接口乱起八糟的好烦啊。确实很烦，但是实际上我们这样做将所有的业务逻辑和数据处理都从View层剥离开来，View只用做最简单的显示工作，数据上面的工作都有Model层去处理，业务逻辑也都丢给Presenter去处理，不管是从测试还是说维护的方面来讲，好处都是很大的。
 ##**MVP-demo**
 以上是简单的MVPdemo示例，考虑到实际应用场景，我们来对这个简单的MVP-Simple进行一些修改和封装。先看看我们的代码结构：
-![这里写图片描述](http://img.blog.csdn.net/20170426102649871?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvb1FpbllvdQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+![这里写图片描述](https://raw.githubusercontent.com/Horrarndoo/MvpDemo/master/assets/mvp.png)
+
 和上面的MVP-Simple相比，这里将Model，View，Presenter都抽取了一个基类，针对IView和IModel，也抽取了一个基类。
 ### Base
 #### BasePresneter
@@ -603,7 +605,8 @@ public class MvpNewActivity extends BaseMvpActivity<MyContract.LoginPresenter, M
 ```
 为了区别前面的mvp和验证IBaseView的实际效果，我们这个最终的demo在登陆完成后加了一条toast提示。
 
-![这里写图片描述](http://img.blog.csdn.net/20170426111114365?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvb1FpbllvdQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![这里写图片描述](https://raw.githubusercontent.com/Horrarndoo/MvpDemo/master/assets/mvp-demo.gif)
 
 三个demo对比看一下的话，还是能看出挺大差别的，个中好处，还是需要自己去领会。
+
 OK，话不多说，最后附上完整demo地址：[https://github.com/Horrarndoo/MvpDemo](https://github.com/Horrarndoo/MvpDemo)
