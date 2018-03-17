@@ -14,8 +14,9 @@ import butterknife.BindView;
  * Created by Horrarndoo on 2017/4/25.
  */
 
-public class MvpNewActivity extends BaseMvpActivity<MyContract.LoginPresenter, MyContract
-        .ILoginModel> implements MyContract.ILoginView {
+public class MvpNewActivity extends BaseMvpActivity<MyContract.LoginPresenter> implements
+        MyContract.ILoginView {
+
     @BindView(R.id.tv_login_result)
     TextView tvLoginResult;
 

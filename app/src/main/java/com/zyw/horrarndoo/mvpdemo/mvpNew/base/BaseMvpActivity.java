@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
  * Created by Horrarndoo on 2017/4/25.
  */
 
-public abstract class BaseMvpActivity<P extends BasePresenter, M extends IBaseModel> extends
+public abstract class BaseMvpActivity<P extends BasePresenter> extends
         AppCompatActivity implements IBaseView {
 
     protected ProgressDialog mWaitPorgressDialog;
@@ -34,11 +34,6 @@ public abstract class BaseMvpActivity<P extends BasePresenter, M extends IBaseMo
     protected P mPresenter;
 
     /**
-     * model 具体的model由子类确定
-     */
-    private M mIModel;
-
-    /**
      * 初始化数据
      * <p>
      * 子类可以复写此方法初始化子类数据
@@ -48,8 +43,7 @@ public abstract class BaseMvpActivity<P extends BasePresenter, M extends IBaseMo
         if (this instanceof IBaseView) {
             this.setPresenter();
             if (mPresenter != null) {
-                mIModel = (M) mPresenter.getModel();
-                mPresenter.attachMV(mIModel, this);
+                mPresenter.attachMV(this);
                 Log.d("tag", "attach M V success.");
             }
         } else {
