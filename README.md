@@ -1,9 +1,9 @@
 # MvpDemo
 关于MVP的概念，或者MVP相对传统MVC的好处，这些这里就不多讲了，网上的资料随便一搜就是一大把。最近刚好项目重构，参考网上一些文章之后，结合自身的理解，本次简单的总结一下我个人对MVP的一些理解。
 
-为了最直观的比较，本次通过三个demo示例实现一个登陆demo逻辑，来简单的演示一下MVC、MVP以及实际MVP使用的异同。
+为了最直观的比较，本次通过三个demo示例实现一个登录demo逻辑，来简单的演示一下MVC、MVP以及实际MVP使用的异同。
 
-先看一下布局代码，就是很简单的一个textView，用来显示登陆结果，三个demo的布局代码都是一样的。
+先看一下布局代码，就是很简单的一个textView，用来显示登录结果，三个demo的布局代码都是一样的。
 
 ```
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,19 +21,19 @@
         android:visibility="invisible"/>
 </FrameLayout>
 ```
-由于只是一个demo，这里稍微偷了下懒，默认一打开demo就会自动的“登陆”，然后两秒后返回登陆结果。
+由于只是一个demo，这里稍微偷了下懒，默认一打开demo就会自动的“登录”，然后两秒后返回登录结果。
 
 ```
 /**
  * Created by Horrarndoo on 2017/4/25.
- * 模拟登陆请求
+ * 模拟登录请求
  */
 
 public class LoginRequest {
     public static void login(String name, String password, final LoginListener loginListener) {
         Log.w("tag", "name = " + name);
         Log.w("tag", "password = " + password);
-        //假设下面是正常的登陆请求
+        //假设下面是正常的登录请求
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -57,7 +57,7 @@ public class LoginRequest {
 ```
 实现效果如下：
 
-![这里写图片描述](http://img.blog.csdn.net/20170426092850602?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvb1FpbllvdQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![这里写图片描述](https://raw.githubusercontent.com/Horrarndoo/MvpDemo/master/assets/simple-demo.gif)
 
 ## **MVC-demo**
 先看看我们最熟悉的MVC方式如何实现。
@@ -119,13 +119,13 @@ public class MvcActivity extends AppCompatActivity {
     }
 }
 ```
-这么看MVC框架其实也没什么问题，代码逻辑也很清晰。但是实际的项目中自然不可能说只有这么几句简单的逻辑，往往一个页面，十几个甚至几十个“登陆”逻辑。这时候我们再想想如果还是按照MVC模式来写的话，所有的界面处理、逻辑等等，全部都堆在Activity，Activity的代码量会有多大，维护起来会多么痛苦。
+这么看MVC框架其实也没什么问题，代码逻辑也很清晰。但是实际的项目中自然不可能说只有这么几句简单的逻辑，往往一个页面，十几个甚至几十个“登录”逻辑。这时候我们再想想如果还是按照MVC模式来写的话，所有的界面处理、逻辑等等，全部都堆在Activity，Activity的代码量会有多大，维护起来会多么痛苦。
 
 ## **MVP-Simple-demo**
 出现了问题，自然就要想着如何解决这个问题，下面我们看看一个MVP框架的一个简单demo示例。
 先看看代码结构：
 
-![这里写图片描述](http://img.blog.csdn.net/20170426100011927?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvb1FpbllvdQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![这里写图片描述](https://raw.githubusercontent.com/Horrarndoo/MvpDemo/master/assets/simple-mvp.png)
 
 ### Model层
 Model层有一个接口ILoginModel，还有一个实现了ILoginModel接口的实现类。
@@ -135,7 +135,7 @@ public interface ILoginModel {
     void requestLogin(String userName, String userPassword, LoginModel.LoginListener loginListener);
 }
 ```
-ILoginModel接口很简单，只有一个方法，就是请求登陆的方法。
+ILoginModel接口很简单，只有一个方法，就是请求登录的方法。
 
 ```
 public class LoginModel implements ILoginModel {
@@ -161,7 +161,7 @@ public class LoginModel implements ILoginModel {
     }
 }
 ```
-LoginModel实现ILoginModel的接口方法，并且通过一个接口对外回调登陆结果。
+LoginModel实现ILoginModel的接口方法，并且通过一个接口对外回调登录结果。
 
 ### View层
 View包下，只有一个view的接口，根据前面MVC框架写法，我们抽出了几个接口。其实严格意义上来讲，Activity应该也是归到View包下。
@@ -285,7 +285,7 @@ public class LoginPresenter {
     }
 }
 ```
-最后Activity通过一个LoginPresenter对象，调用登陆方法。
+最后Activity通过一个LoginPresenter对象，调用登录方法。
 
 ```
 LoginPresenter mPresenter;
@@ -295,7 +295,9 @@ mPresenter.login();
 最终实现的效果和MVC实现的效果是一样的，这时候就有人要问了，这代码量比MVC还要大啊，而且一堆接口乱起八糟的好烦啊。确实很烦，但是实际上我们这样做将所有的业务逻辑和数据处理都从View层剥离开来，View只用做最简单的显示工作，数据上面的工作都有Model层去处理，业务逻辑也都丢给Presenter去处理，不管是从测试还是说维护的方面来讲，好处都是很大的。
 ##**MVP-demo**
 以上是简单的MVPdemo示例，考虑到实际应用场景，我们来对这个简单的MVP-Simple进行一些修改和封装。先看看我们的代码结构：
-![这里写图片描述](http://img.blog.csdn.net/20170426102649871?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvb1FpbllvdQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+![这里写图片描述](https://raw.githubusercontent.com/Horrarndoo/MvpDemo/master/assets/mvp.png)
+
 和上面的MVP-Simple相比，这里将Model，View，Presenter都抽取了一个基类，针对IView和IModel，也抽取了一个基类。
 ### Base
 #### BasePresneter
@@ -601,9 +603,10 @@ public class MvpNewActivity extends BaseMvpActivity<MyContract.LoginPresenter, M
 }
 
 ```
-为了区别前面的mvp和验证IBaseView的实际效果，我们这个最终的demo在登陆完成后加了一条toast提示。
+为了区别前面的mvp和验证IBaseView的实际效果，我们这个最终的demo在登录完成后加了一条toast提示。
 
-![这里写图片描述](http://img.blog.csdn.net/20170426111114365?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvb1FpbllvdQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![这里写图片描述](https://raw.githubusercontent.com/Horrarndoo/MvpDemo/master/assets/mvp-demo.gif)
 
 三个demo对比看一下的话，还是能看出挺大差别的，个中好处，还是需要自己去领会。
+
 OK，话不多说，最后附上完整demo地址：[https://github.com/Horrarndoo/MvpDemo](https://github.com/Horrarndoo/MvpDemo)
