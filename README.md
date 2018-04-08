@@ -56,8 +56,7 @@ public class LoginRequest {
 }
 ```
 实现效果如下：
-
-![这里写图片描述](https://raw.githubusercontent.com/Horrarndoo/MvpDemo/master/assets/simple-demo.gif)
+![这里写图片描述](http://upload-images.jianshu.io/upload_images/5362206-260b38ab10c8dabf?imageMogr2/auto-orient/strip)
 
 ## **MVC-demo**
 先看看我们最熟悉的MVC方式如何实现。
@@ -124,8 +123,7 @@ public class MvcActivity extends AppCompatActivity {
 ## **MVP-Simple-demo**
 出现了问题，自然就要想着如何解决这个问题，下面我们看看一个MVP框架的一个简单demo示例。
 先看看代码结构：
-
-![这里写图片描述](https://raw.githubusercontent.com/Horrarndoo/MvpDemo/master/assets/simple-mvp.png)
+![这里写图片描述](http://upload-images.jianshu.io/upload_images/5362206-fc3ffcb1928785a1?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ### Model层
 Model层有一个接口ILoginModel，还有一个实现了ILoginModel接口的实现类。
@@ -295,9 +293,7 @@ mPresenter.login();
 最终实现的效果和MVC实现的效果是一样的，这时候就有人要问了，这代码量比MVC还要大啊，而且一堆接口乱起八糟的好烦啊。确实很烦，但是实际上我们这样做将所有的业务逻辑和数据处理都从View层剥离开来，View只用做最简单的显示工作，数据上面的工作都有Model层去处理，业务逻辑也都丢给Presenter去处理，不管是从测试还是说维护的方面来讲，好处都是很大的。
 ##**MVP-demo**
 以上是简单的MVPdemo示例，考虑到实际应用场景，我们来对这个简单的MVP-Simple进行一些修改和封装。先看看我们的代码结构：
-
-![这里写图片描述](https://raw.githubusercontent.com/Horrarndoo/MvpDemo/master/assets/mvp.png)
-
+![这里写图片描述](http://upload-images.jianshu.io/upload_images/5362206-e3ddb7e14c1052e7?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 和上面的MVP-Simple相比，这里将Model，View，Presenter都抽取了一个基类，针对IView和IModel，也抽取了一个基类。
 ### Base
 #### BasePresneter
@@ -318,11 +314,10 @@ public abstract class BasePresenter<M, V> {
     /**
      * 绑定IModel和IView的引用
      *
-     * @param m model
      * @param v view
      */
-    public void attachMV(M m, V v) {
-        this.mIModel = m;
+    public void attachMV(V v) {
+        this.mIModel = getModel();
         this.mIView = v;
         this.onStart();
     }
@@ -367,7 +362,7 @@ public interface IBaseView {
 #### BaseMvpActivity
 BaseMvpActivity主要是做了一些基本的封装，由于具体的presenter和IModel由子类决定，所以这里定义2个继承BasePresenter和IBaseModel的泛型。
 ```
-public abstract class BaseMvpActivity<P extends BasePresenter, M extends IBaseModel> extends
+public abstract class BaseMvpActivity<P extends BasePresenter> extends
         AppCompatActivity implements IBaseView {
 
     protected ProgressDialog mWaitPorgressDialog;
@@ -388,11 +383,6 @@ public abstract class BaseMvpActivity<P extends BasePresenter, M extends IBaseMo
     protected P mPresenter;
 
     /**
-     * model 具体的model由子类确定
-     */
-    private M mIModel;
-
-    /**
      * 初始化数据
      * <p>
      * 子类可以复写此方法初始化子类数据
@@ -402,8 +392,7 @@ public abstract class BaseMvpActivity<P extends BasePresenter, M extends IBaseMo
         if (this instanceof IBaseView) {
             this.setPresenter();
             if (mPresenter != null) {
-                mIModel = (M) mPresenter.getModel();
-                mPresenter.attachMV(mIModel, this);
+                mPresenter.attachMV(this);
                 Log.d("tag", "attach M V success.");
             }
         } else {
@@ -548,8 +537,7 @@ public class LoginPresenter extends MyContract.LoginPresenter {
 最后看看我们的Activity实现，由于继承BaseMvpActivity，所有butterKnife的绑定，onCreate等方法都不用实现了，直接实现抽象方法getLayoutId()确定Activity要显示的布局就可以了。
 
 ```
-public class MvpNewActivity extends BaseMvpActivity<MyContract.LoginPresenter, MyContract
-        .ILoginModel> implements MyContract.ILoginView {
+public class MvpNewActivity extends BaseMvpActivity<MyContract.LoginPresenter> implements MyContract.ILoginView {
     @BindView(R.id.tv_login_result)
     TextView tvLoginResult;
 
@@ -604,9 +592,6 @@ public class MvpNewActivity extends BaseMvpActivity<MyContract.LoginPresenter, M
 
 ```
 为了区别前面的mvp和验证IBaseView的实际效果，我们这个最终的demo在登录完成后加了一条toast提示。
-
-![这里写图片描述](https://raw.githubusercontent.com/Horrarndoo/MvpDemo/master/assets/mvp-demo.gif)
+![这里写图片描述](http://upload-images.jianshu.io/upload_images/5362206-a684ddbf315d696d?imageMogr2/auto-orient/strip)
 
 三个demo对比看一下的话，还是能看出挺大差别的，个中好处，还是需要自己去领会。
-
-OK，话不多说，最后附上完整demo地址：[https://github.com/Horrarndoo/MvpDemo](https://github.com/Horrarndoo/MvpDemo)
