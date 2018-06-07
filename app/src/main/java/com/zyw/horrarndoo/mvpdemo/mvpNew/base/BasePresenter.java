@@ -5,15 +5,15 @@ package com.zyw.horrarndoo.mvpdemo.mvpNew.base;
  */
 
 public abstract class BasePresenter<M, V> {
-    public M mIModel;
-    public V mIView;
+    protected M mIModel;
+    protected V mIView;
 
     /**
      * 返回presenter要持有的Model引用
      *
      * @return
      */
-    public abstract M getModel();
+    protected abstract M getModel();
 
     /**
      * 绑定IModel和IView的引用

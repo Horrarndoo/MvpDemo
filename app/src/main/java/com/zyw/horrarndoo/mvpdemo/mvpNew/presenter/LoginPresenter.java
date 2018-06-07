@@ -50,7 +50,7 @@ public class LoginPresenter extends MyContract.LoginPresenter {
     }
 
     @Override
-    public LoginModel getModel() {
+    protected LoginModel getModel() {
         return new LoginModel();
     }
 
